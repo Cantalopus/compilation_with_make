@@ -1,0 +1,9 @@
+/build
+/bin
+*.i
+*.s
+*.o
+*.a
+example
+second
+lesson-terminal.log
