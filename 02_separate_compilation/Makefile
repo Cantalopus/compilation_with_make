@@ -8,11 +8,11 @@ all: example second
 example: main.o libhelper.a
 	$(CC) $^ -o $@
 
-main.i: main.c helper.h 
-	$(CC) -E $< -o $@
+#main.i: main.c helper.h 
+#	$(CC) -E $< -o $@
 
-helper.i: helper.c helper.h 
-	$(CC) -E $< -o $@
+#helper.i: helper.c helper.h 
+#	$(CC) -E $< -o $@
 
 %.s: %.i
 	$(CC) -S $< -o $@ 
