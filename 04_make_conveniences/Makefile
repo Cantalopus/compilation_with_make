@@ -1,7 +1,6 @@
 CC = gcc
 
-.PHONY: all clean
-
+.PHONY: all
 all: example
 
 example: main.o helper.o
@@ -12,8 +11,8 @@ main.i: main.c helper.h
 
 main.s: main.i
 	$(CC) -S $< -o $@
-
-main.o: main.s
+ 
+main.o: main.s 
 	$(CC) -c $< -o $@
 
 helper.i: helper.c helper.h
@@ -22,8 +21,16 @@ helper.i: helper.c helper.h
 helper.s: helper.i
 	$(CC) -S $< -o $@
 
-helper.o: helper.s
+helper.o: helper.s 
 	$(CC) -c $< -o $@
 
+
+.PHONY: clean
 clean:
-	rm -f main.i main.s main.o helper.i helper.s helper.o example
+	rm -f main.i \
+	      main.s \
+		  main.o \
+		  helper.i \
+		  helper.s \
+		  helper.o \
+		  example
