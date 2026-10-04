@@ -7,11 +7,11 @@ bin/example: build/main.o build/libnumbers.a
 	mkdir -p bin
 	$(CC) $^ -o $@
 
-bin/second: build/second.o build/libnumbers.a 
+bin/second: build/second.o build/libnumbers.a
 	mkdir -p bin
 	$(CC) $^ -o $@
 
-build/libnumbers.a: build/helper.o build/extra.o 
+build/libnumbers.a: build/helper.o build/extra.o
 	mkdir -p build
 	ar rcs $@ $^
 
@@ -20,11 +20,11 @@ build/libnumbers.a: build/helper.o build/extra.o
 build/main.i build/helper.i build/extra.i build/second.i: \
 	src/lib/include/helper.h 
 
-build/%.i: src/app/%.c 
+build/%.i: src/app/%.c
 	mkdir -p build
 	$(CC) -E $< -o $@
 
-build/%.i: src/lib/%.c 
+build/%.i: src/lib/%.c
 	mkdir -p build
 	$(CC) -E $< -o $@ 
 
@@ -32,7 +32,7 @@ build/%.s: build/%.i
 	mkdir -p build
 	$(CC) -S $< -o $@ 
 
-build/%.o: build/%.s 
+build/%.o: build/%.s
 	mkdir -p build
 	$(CC) -c $< -o $@
 
