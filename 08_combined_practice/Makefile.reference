@@ -1,0 +1,34 @@
+CC = gcc
+
+.PHONY: all clean
+
+all: bin/example
+
+bin/example: build/app/main.o build/libnumbers.a
+	mkdir -p bin
+	$(CC) $^ -o $@
+
+build/libnumbers.a: build/lib/helper.o build/lib/extra.o
+	mkdir -p build
+	ar rcs $@ $^
+
+.SECONDARY:
+
+build/app/main.i build/lib/helper.i build/lib/extra.i: src/lib/include/helper.h
+
+build/app/%.i: src/app/%.c
+	mkdir -p build/app
+	$(CC) -E $< -o $@
+
+build/lib/%.i: src/lib/%.c
+	mkdir -p build/lib
+	$(CC) -E $< -o $@
+
+build/%.s: build/%.i
+	$(CC) -S $< -o $@
+
+build/%.o: build/%.s
+	$(CC) -c $< -o $@
+
+clean:
+	rm -rf build bin
