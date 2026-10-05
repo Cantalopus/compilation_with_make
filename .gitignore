@@ -4,6 +4,7 @@
 *.s
 *.o
 *.a
+*.d
 example
 second
 lesson-terminal.log
