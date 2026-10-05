@@ -12,7 +12,7 @@ bin/second: build/second.o build/libnumbers.a | bin
 	$(CC) $(^) -o $(@)
 
 build/libnumbers.a: build/helper.o build/extra.o | build
-	ar rcs $@ $(^)
+	ar rcs $(@) $(^)
 
 .SECONDARY:
 
