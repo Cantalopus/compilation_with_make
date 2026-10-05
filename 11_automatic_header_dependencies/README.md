@@ -3,7 +3,7 @@
 
 `-MMd`  -> tell the compiler to create a list of dependencies(headers) for our source file, excluding systems headers.
 
-`-MF <file>`  -> tell the compile which file to store our dependency information, from `-MMD` in.
+`-MF <file>`  -> tell the compile which file to store our dependency information, from `-MMD` in. Example: `-MF $(@:.i=.d)`
 
 `$(@:.i=.d)`  -> is Make syntax that would expand a file name like `build/main.i` into `build/main.d`.
 
