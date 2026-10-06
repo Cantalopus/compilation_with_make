@@ -2,5 +2,5 @@
 
 int extra_number(void)
 {
-    return 99;
+    return 100;
 }

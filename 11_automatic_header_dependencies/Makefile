@@ -1,6 +1,6 @@
 CC = gcc
 CPPFLAGS = -Isrc/lib/include
-CFLAGS = -Wall -Wextra -g 
+CFLAGS = -g -Wall -Wextra
 
 .PHONY: all
 all: bin/example bin/second
@@ -16,9 +16,6 @@ build/libnumbers.a: build/helper.o build/extra.o | build
 
 .SECONDARY:
 
-#build/main.i build/helper.i build/extra.i build/second.i: \
-#	src/lib/include/helper.h 
-
 build/%.i: src/app/%.c | build
 	$(CC) $(CPPFLAGS) -MMD -MF $(@:.i=.d) -MT $(@) -E $(<) -o $(@)
 
@@ -29,17 +26,17 @@ build/%.s: build/%.i | build
 	$(CC) $(CFLAGS) -S $(<) -o $(@)
 
 build/%.o: build/%.s | build
-	$(CC) -c $(<) -o $(@)
+	$(CC) -c $(<) -o $(@) 
+
 
 -include build/main.d \
-         build/second.d \
+		 build/second.d \
 		 build/helper.d \
-		 build/extra.d
+		 build/extra.d 
 
 build bin:
 	mkdir -p $(@)
 
-
 .PHONY: clean
-clean: 
+clean:
 	rm -rf build bin
