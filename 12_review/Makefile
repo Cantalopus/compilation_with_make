@@ -5,22 +5,29 @@ CFLAGS = -g -Wall -Wextra
 .PHONY: all
 all: bin/balance bin/order_report bin/stock_report
 
-bin/balance: build/balance_check.o build/libinventory.a | bin
+bin/balance: build/balance_check.o \
+             build/liborder.a \
+			 build/libstock.a              | bin
 	$(CC) $(^) -o $(@)
 
-bin/order_report: build/order_report.o build/libinventory.a | bin
+bin/order_report: build/order_report.o \
+                  build/liborder.a         | bin
 	$(CC) $(^) -o $(@)
 
-bin/stock_report: build/stock_report.o build/libinventory.a | bin
+bin/stock_report: build/stock_report.o \
+                  build/libstock.a         | bin
 	$(CC) $(^) -o $(@) 
 
-build/libinventory.a: build/bolt_order.o \
-                      build/nut_order.o \
-					  build/panel_order.o \
-					  build/bolt_stock.o \
-					  build/nut_stock.o \
-					  build/panel_stock.o | build
+
+build/liborder.a: build/bolt_order.o \
+				  build/nut_order.o \
+				  build/panel_order.o
 	ar rcs $(@) $(^)
+
+build/libstock.a: build/bolt_stock.o \
+				  build/nut_stock.o \
+				  build/panel_stock.o
+	ar rcs $(@) $(^) 
 
 .SECONDARY:
 
