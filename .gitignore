@@ -1,10 +1,11 @@
-/build
-/bin
+build/
+bin/
 *.i
 *.s
 *.o
 *.a
 *.d
+*.zip
 example
 second
 lesson-terminal.log
