@@ -1,18 +1,19 @@
-# 04: Make conveniences
+## Variable usage
+    - $(@) -> target
+    - $(<) -> prerequisite 
+    - $(^) -> all prerequisites
+    - CC -> C Compiler
+    - %  -> matching
+    
 
-This is a focused reference baseline. There is no need to redo every previous exercise. The next active lesson is **07_build_folders**.
+## New commands
+    - ar -> archiver.
+        - r -> replace existing members, or insert them if they aren't there.
+        - c -> expect to create the archive; suppress the notice normally printed when a new archive is created.
+        - s -> create of update the symbols index, which helps the linker find definitions inside the archive. 
+        - t -> display the table of contents.
+    - make -> builds top target as default
+        - -r -> disables build rules that will skip generating intermediate files, like .i .s files. This command works in concert with .SECONDARY(inside Makefile): which keeps intermediate files that make creates. 
 
-Focus: shorten the same explicit build rules. `CC` names the compiler; `$@` is the target, `$<` the first prerequisite, and `$^` all prerequisites. The `.c -> .i -> .s -> .o -> executable` stages stay visible.
-
-`all` groups the default build. `.PHONY` marks `all` and `clean` as actions rather than files.
-
-From this directory:
-
-```sh
-make all
-./example
-echo $?
-make clean
-```
-
-Expected status: `12`. `clean` removes only the named generated files; sources remain. `make` builds them again. To select a compiler, use `make CC=gcc`.
+# What We're Looking at:
+Here, we use `.PHONY:` to let Make know that this is not a file and that it does not need to update or reprocess any recipes. 
