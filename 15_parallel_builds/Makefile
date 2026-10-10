@@ -74,5 +74,5 @@ build bin:
 	mkdir -p $(@)
 
 .PHONY: clean
-clean: bin build
-	rm -rf $(^)
+clean: 
+	$(if $(wildcard bin build), rm -rf $(wildcard bin build))
