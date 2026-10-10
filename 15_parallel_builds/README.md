@@ -51,4 +51,34 @@
 
 
 # What We're Looking at:
-This looks at how to link shared libraries during the linking stage, how to link shared libraries as static libraries, and how to view there size and generating commands.  
+Here we are inspecting Make's ability to multitask with:  
+
+```bash
+make -r -j4
+```  
+Try replacing:
+```Make
+bin/order: build/order_report.o \
+           build/liborder.a            | bin
+	$(CC) $(^) -lc -o $(@)
+```
+with: 
+```Make
+bin/order: build/order_report.o        | bin
+	$(CC) $(^) build/liborder.a -lc -o $(@)
+```
+first, run the command:
+```bash
+make -r -j1
+```
+This should succeed, because the library will be ready at the time of linking. Then, add `sleep 3` here:
+```make
+build/liborder.a: $(ORDER_OBJ)         | build
+	sleep 3
+	ar rcs $(@) $(^)
+```
+now, run:
+```bash
+make -r -j4
+```
+This should fail, because the library will not be built by the time of linking. 

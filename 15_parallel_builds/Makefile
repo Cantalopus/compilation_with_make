@@ -24,15 +24,15 @@ all: bin/balance \
 
 bin/balance: build/balance_check.o \
              build/libstock.a \
-			 build/liborder.a          | bin
+			 build/liborder.a | bin
 	$(CC) $(^) -lc -o $(@)
 
 bin/order: build/order_report.o \
-           build/liborder.a            | bin
+           build/liborder.a   | bin
 	$(CC) $(^) -lc -o $(@)
 
 bin/stock: build/stock_report.o \
-           build/libstock.a            | bin 
+           build/libstock.a   | bin 
 	$(CC) $(^) -lc -o $(@)
 
 ##################################################
@@ -65,7 +65,7 @@ build/%.i: src/lib/stock/hardware/%.c  | build
 build/%.i: src/lib/stock/panels/%.c    | build
 	$(CC) $(CPPFLAGS) $(DFLAGS) -E $(<) -o $(@)
 
-build/%.s: build/%.i | build/assembly
+build/%.s: build/%.i | build
 	$(CC) $(CFLAGS) -S $(<) -o $(@)
 
 build/%.o: build/%.s | build
