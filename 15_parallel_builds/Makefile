@@ -15,6 +15,7 @@ STOCK_OBJ = build/bolt_stock.o \
 
 OBJ = $(ORDER_OBJ) $(STOCK_OBJ)
 
+##################################################
 
 .PHONY: all
 all: bin/balance \
@@ -23,51 +24,58 @@ all: bin/balance \
 
 bin/balance: build/balance_check.o \
              build/libstock.a \
-			 build/liborder.a | bin
+			 build/liborder.a          | bin
 	$(CC) $(^) -lc -o $(@)
 
-bin/order: build/order_report.o build/liborder.a | bin
+bin/order: build/order_report.o \
+           build/liborder.a            | bin
 	$(CC) $(^) -lc -o $(@)
 
 bin/stock: build/stock_report.o \
-           build/libstock.a | bin 
+           build/libstock.a            | bin 
 	$(CC) $(^) -lc -o $(@)
 
-build/liborder.a: $(ORDER_OBJ) | build
+##################################################
+
+build/liborder.a: $(ORDER_OBJ)         | build
 	ar rcs $(@) $(^)
 
-build/libstock.a: $(STOCK_OBJ) | build
+build/libstock.a: $(STOCK_OBJ)         | build
 	ar rcs $(@) $(^)
+
+##################################################
 
 .SECONDARY:
 
-build/%.i: src/apps/checks/%.c | build
+build/%.i: src/apps/checks/%.c         | build
 	$(CC) $(CPPFLAGS) $(DFLAGS) -E $(<) -o $(@)
 
-build/%.i: src/apps/reports/%.c | build
+build/%.i: src/apps/reports/%.c        | build
 	$(CC) $(CPPFLAGS) $(DFLAGS) -E $(<) -o $(@)
 
 build/%.i: src/lib/orders/hardware/%.c | build
 	$(CC) $(CPPFLAGS) $(DFLAGS) -E $(<) -o $(@)
 
-build/%.i: src/lib/orders/panels/%.c | build
+build/%.i: src/lib/orders/panels/%.c   | build
 	$(CC) $(CPPFLAGS) $(DFLAGS) -E $(<) -o $(@)
 
-build/%.i: src/lib/stock/hardware/%.c | build
+build/%.i: src/lib/stock/hardware/%.c  | build
 	$(CC) $(CPPFLAGS) $(DFLAGS) -E $(<) -o $(@)
 
-build/%.i: src/lib/stock/panels/%.c | build
+build/%.i: src/lib/stock/panels/%.c    | build
 	$(CC) $(CPPFLAGS) $(DFLAGS) -E $(<) -o $(@)
 
-build/%.s: build/%.i | build
+build/%.s: build/%.i | build/assembly
 	$(CC) $(CFLAGS) -S $(<) -o $(@)
 
 build/%.o: build/%.s | build
 	$(CC) -c $(<) -o $(@)
 
+##################################################
 
 -include $(DEP)
 
+##################################################
 
 build bin:
 	mkdir -p $(@)
@@ -75,3 +83,6 @@ build bin:
 .PHONY: clean
 clean: 
 	$(if $(wildcard bin build), rm -rf $(wildcard bin build))
+
+build/dependencies build/preprocessor build/assembly build/object:
+	mkdir -p $(@) 
