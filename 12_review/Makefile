@@ -21,7 +21,7 @@ bin/stock_report: build/stock_report.o \
 
 build/liborder.a: build/bolt_order.o \
 				  build/nut_order.o \
-				  build/panel_order.o
+				  build/panel_order.o  
 	ar rcs $(@) $(^)
 
 build/libstock.a: build/bolt_stock.o \
