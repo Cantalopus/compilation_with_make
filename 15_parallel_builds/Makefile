@@ -26,8 +26,8 @@ bin/balance: build/balance_check.o \
 			 build/liborder.a | bin
 	$(CC) $(^) -lc -o $(@)
 
-bin/order: build/order_report.o | bin
-	$(CC) $(^) build/liborder.a -lc -o $(@)
+bin/order: build/order_report.o build/liborder.a | bin
+	$(CC) $(^) -lc -o $(@)
 
 bin/stock: build/stock_report.o \
            build/libstock.a | bin 
