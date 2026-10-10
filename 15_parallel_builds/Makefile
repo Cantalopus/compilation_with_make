@@ -22,19 +22,19 @@ all: bin/balance \
 	 bin/stock
 
 bin/balance: build/balance_check.o \
-			 build/liborder.a \
-			 build/libstock.a | bin
+             build/libstock.a \
+			 build/liborder.a | bin
 	$(CC) $(^) -lc -o $(@)
 
-bin/order: build/order_report.o \
-		   build/liborder.a | bin
-	$(CC) $(^) -lc -o $(@)
+bin/order: build/order_report.o | bin
+	$(CC) $(^) build/liborder.a -lc -o $(@)
 
 bin/stock: build/stock_report.o \
-		   build/libstock.a | bin
+           build/libstock.a | bin 
 	$(CC) $(^) -lc -o $(@)
 
 build/liborder.a: $(ORDER_OBJ) | build
+	sleep 3
 	ar rcs $(@) $(^)
 
 build/libstock.a: $(STOCK_OBJ) | build
