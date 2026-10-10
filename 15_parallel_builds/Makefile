@@ -34,7 +34,6 @@ bin/stock: build/stock_report.o \
 	$(CC) $(^) -lc -o $(@)
 
 build/liborder.a: $(ORDER_OBJ) | build
-	sleep 3
 	ar rcs $(@) $(^)
 
 build/libstock.a: $(STOCK_OBJ) | build
