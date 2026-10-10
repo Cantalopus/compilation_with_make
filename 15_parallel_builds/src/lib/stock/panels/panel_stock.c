@@ -3,5 +3,5 @@
 
 int panel_stock(void)
 {
-    return 100;
+    return PANEL_STOCK;
 }

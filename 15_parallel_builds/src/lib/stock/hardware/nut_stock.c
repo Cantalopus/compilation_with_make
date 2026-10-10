@@ -3,5 +3,5 @@
 
 int nut_stock(void)
 {
-    return 100;
+    return NUT_STOCK;
 }

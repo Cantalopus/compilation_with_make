@@ -3,5 +3,5 @@
 
 int nut_order(void)
 {
-    return 100;
+    return NUT_ORDER;
 }

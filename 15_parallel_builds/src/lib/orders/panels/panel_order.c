@@ -3,5 +3,5 @@
 
 int panel_order(void)
 {
-    return 100;
+    return PANEL_ORDER;
 }

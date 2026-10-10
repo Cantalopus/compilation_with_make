@@ -12,7 +12,9 @@ ORDER_OBJ = build/bolt_order.o \
 STOCK_OBJ = build/bolt_stock.o \
 			build/nut_stock.o \
 			build/panel_stock.o 
+
 OBJ = $(ORDER_OBJ) $(STOCK_OBJ)
+
 
 .PHONY: all
 all: bin/balance \
@@ -65,11 +67,12 @@ build/%.o: build/%.s | build
 	$(CC) -c $(<) -o $(@)
 
 
-build bin:
-	mkdir -p build bin 
-
 -include $(DEP)
 
+
+build bin:
+	mkdir -p $(@)
+
 .PHONY: clean
-clean:
-	rm -rf bin build
+clean: bin build
+	rm -rf $(^)

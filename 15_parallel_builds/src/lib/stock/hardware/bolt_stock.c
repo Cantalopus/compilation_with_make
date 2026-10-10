@@ -3,5 +3,5 @@
 
 int bolt_stock(void)
 {
-    return 100;
+    return BOLT_STOCK;
 }

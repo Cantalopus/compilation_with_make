@@ -3,5 +3,5 @@
 
 int bolt_order(void)
 {
-    return 100;
+    return BOLT_ORDER;
 }
