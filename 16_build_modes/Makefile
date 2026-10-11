@@ -3,15 +3,15 @@ CPPFLAGS = -Isrc/lib/orders/include -Isrc/lib/stock/include
 CFLAGS = -g -Wall -Wextra
 DFLAGS = -MMD -MF $(@:.i=.d) -MT $(@)
 
-DEP = $(wildcard build/*.d)
+DEP = $(wildcard $(BUILD_DIR)/*.d)
 BIN = $(wildcard bin/*)
 
-ORDER_OBJ = build/bolt_order.o \
-			build/nut_order.o \
-			build/panel_order.o
-STOCK_OBJ = build/bolt_stock.o \
-			build/nut_stock.o \
-			build/panel_stock.o 
+ORDER_OBJ = $(BUILD_DIR)/bolt_order.o \
+			$(BUILD_DIR)/nut_order.o \
+			$(BUILD_DIR)/panel_order.o
+STOCK_OBJ = $(BUILD_DIR)/bolt_stock.o \
+			$(BUILD_DIR)/nut_stock.o \
+			$(BUILD_DIR)/panel_stock.o 
 
 OBJ = $(ORDER_OBJ) $(STOCK_OBJ)
 
@@ -33,57 +33,57 @@ endif
 ##################################################
 
 .PHONY: all
-all: bin/balance \
-	 bin/order \
-	 bin/stock
+all: $(BIN_DIR)/balance \
+	 $(BIN_DIR)/order \
+	 $(BIN_DIR)/stock
 
-bin/balance: build/balance_check.o \
-             build/libstock.a \
-			 build/liborder.a | bin
+$(BIN_DIR)/balance: $(BUILD_DIR)/balance_check.o \
+             $(BUILD_DIR)/libstock.a \
+			 $(BUILD_DIR)/liborder.a | $(BIN_DIR)
 	$(CC) $(^) -lc -o $(@)
 
-bin/order: build/order_report.o \
-           build/liborder.a   | bin
+$(BIN_DIR)/order: $(BUILD_DIR)/order_report.o \
+           $(BUILD_DIR)/liborder.a   | $(BIN_DIR)
 	$(CC) $(^) -lc -o $(@)
 
-bin/stock: build/stock_report.o \
-           build/libstock.a   | bin 
+$(BIN_DIR)/stock: $(BUILD_DIR)/stock_report.o \
+           $(BUILD_DIR)/libstock.a   | $(BIN_DIR) 
 	$(CC) $(^) -lc -o $(@)
 
 ##################################################
 
-build/liborder.a: $(ORDER_OBJ)         | build
+$(BUILD_DIR)/liborder.a: $(ORDER_OBJ)         | $(BUILD_DIR)
 	ar rcs $(@) $(^)
 
-build/libstock.a: $(STOCK_OBJ)         | build
+$(BUILD_DIR)/libstock.a: $(STOCK_OBJ)         | $(BUILD_DIR)
 	ar rcs $(@) $(^)
 
 ##################################################
 
 .SECONDARY:
 
-build/%.i: src/apps/checks/%.c         | build
+$(BUILD_DIR)/%.i: src/apps/checks/%.c         | $(BUILD_DIR)
 	$(CC) $(CPPFLAGS) $(DFLAGS) -E $(<) -o $(@)
 
-build/%.i: src/apps/reports/%.c        | build
+$(BUILD_DIR)/%.i: src/apps/reports/%.c        | $(BUILD_DIR)
 	$(CC) $(CPPFLAGS) $(DFLAGS) -E $(<) -o $(@)
 
-build/%.i: src/lib/orders/hardware/%.c | build
+$(BUILD_DIR)/%.i: src/lib/orders/hardware/%.c | $(BUILD_DIR)
 	$(CC) $(CPPFLAGS) $(DFLAGS) -E $(<) -o $(@)
 
-build/%.i: src/lib/orders/panels/%.c   | build
+$(BUILD_DIR)/%.i: src/lib/orders/panels/%.c   | $(BUILD_DIR)
 	$(CC) $(CPPFLAGS) $(DFLAGS) -E $(<) -o $(@)
 
-build/%.i: src/lib/stock/hardware/%.c  | build
+$(BUILD_DIR)/%.i: src/lib/stock/hardware/%.c  | $(BUILD_DIR)
 	$(CC) $(CPPFLAGS) $(DFLAGS) -E $(<) -o $(@)
 
-build/%.i: src/lib/stock/panels/%.c    | build
+$(BUILD_DIR)/%.i: src/lib/stock/panels/%.c    | $(BUILD_DIR)
 	$(CC) $(CPPFLAGS) $(DFLAGS) -E $(<) -o $(@)
 
-build/%.s: build/%.i | build
+$(BUILD_DIR)/%.s: $(BUILD_DIR)/%.i | $(BUILD_DIR)
 	$(CC) $(CFLAGS) -S $(<) -o $(@)
 
-build/%.o: build/%.s | build
+$(BUILD_DIR)/%.o: $(BUILD_DIR)/%.s | $(BUILD_DIR)
 	$(CC) -c $(<) -o $(@)
 
 ##################################################
@@ -92,7 +92,7 @@ build/%.o: build/%.s | build
 
 ##################################################
 
-build bin:
+$(BUILD_DIR) $(BIN_DIR):
 	mkdir -p $(@)
 
 .PHONY: show-config
