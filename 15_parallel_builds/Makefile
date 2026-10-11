@@ -15,6 +15,19 @@ STOCK_OBJ = build/bolt_stock.o \
 
 OBJ = $(ORDER_OBJ) $(STOCK_OBJ)
 
+MODE ?= debug
+
+BUILD_DIR = build/$(MODE)
+BIN_DIR = bin/$(MODE)
+
+ifeq ($(MODE),debug)
+CFLAGS = -g -O0 -Wall -Wextra
+else ifeq ($(MODE), release)
+CFLAGS = -g -O2 -Wall -Wextra
+else
+$(error Unknown MODE '$(MODE)'; use debug or release)
+endif
+
 ##################################################
 
 .PHONY: all
@@ -80,9 +93,13 @@ build/%.o: build/%.s | build
 build bin:
 	mkdir -p $(@)
 
+.PHONY: show-config
+show-config:
+	@echo "MODE      = $(MODE)"
+	@echo "BUILD_DIR = $(BUILD_DIR)"
+	@echo "BIN_DIR   = $(BIN_DIR)"
+	@echo "CFLAGS    = $(CFLAGS)"
+
 .PHONY: clean
 clean: 
-	$(if $(wildcard bin build), rm -rf $(wildcard bin build))
-
-build/dependencies build/preprocessor build/assembly build/object:
-	mkdir -p $(@) 
+	$(if $(wildcard bin build), rm -rf $(wildcard bin build)) 

@@ -6,6 +6,7 @@ bin/
 *.a
 *.d
 *.zip
+*/clean
 example
 second
 lesson-terminal.log
