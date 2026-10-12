@@ -1,4 +1,4 @@
-#include "../lib/include/helper.h"
+#include "helper.h"
 
 int main(void)
 {
