@@ -16,10 +16,10 @@
 ```Make
 ifeq ($(MODE),debug) #example
 CFLAGS = -g -O0 -Wall -Wextra
-    @echo '>>>>>>DEBUG MODE<<<<<<'   #echo must start with tab
+$(info >>>>>>>>>>DEBUG MODE<<<<<<<<<<)
 else ifeq ($(MODE),release)
 CFLAGS = -O2 -Wall -Wextra
-    @echo '>>>>>>DEBUG MODE<<<<<<'   #echo must start with tab
+$(info >>>>>>>>>>RELEASE MODE<<<<<<<<<<)
 else
 $(error invalid MODE, use debug or release)
 endif
