@@ -1,15 +1,33 @@
-## Variable usage
-    - $(@) -> target
-    - $(<) -> prerequisite 
-    - $(^) -> all prerequisites
-    - CC   -> C Compiler
-    - %    -> matching
-    - \    -> new line
+## Make variables usage
+    - $(@) --------> target
+    - $(<) --------> prerequisite 
+    - $(^) --------> all prerequisites
+    - CC   --------> C Compiler
+    - %    --------> matching
+    - \    --------> new line
+    - @<command>  -> hides command
+    - \t(tab) -----> read as recipe, use in targets recipes ONLY!!!
     
 ## Make functions
+`$(if condition, then-part, else-part)` -> if condition is false there is no else-part, the function produces an empty string(meaning false). Only the selected branch is expanded. **Example:** `$(if hello,YES,NO)` returns yes. `$(if ,YES,NO)` returns an empty string, meaning false, the else-part is selected returning `NO`. `$(if 1,YES,NO)`->`YES`, `$(if 0,YES,NO)`->`YES`, `$(if false,YES,NO)`->`YES`, `$(if "",YES,NO)`->`YES`, `$(if ,YES,NO)`->`NO`.
+
+
+`ifeq (<variable>,<variable>)` -> if the 1st variable is equal to the 2nd. Underneith the first line as many commands(and lines) as needed can be ran. Used along with `else` and `else ifeq ()`. Use whitespace between `ifeq` and `()` and must be closed with `endif` Example:
+```Make
+ifeq ($(MODE),debug) #example
+CFLAGS = -g -O0 -Wall -Wextra
+$(info >>>>>>>>>>DEBUG MODE<<<<<<<<<<)
+else ifeq ($(MODE),release)
+CFLAGS = -O2 -Wall -Wextra
+$(info >>>>>>>>>>RELEASE MODE<<<<<<<<<<)
+else
+$(error invalid MODE, use debug or release)
+endif
+```
+
 `$(patsubst old, new, text)` -> cycles through replacing old text with new text.  
 
-`$(wildcard pattern1 pattern2 pattern3)` -> Uses globbing to returns any file names that match the patter. You can also supply exact matches. 
+`$(wildcard pattern1 pattern2 pattern3)` -> Uses globbing to return any file names that match the patter. You can also supply exact matches. 
 - `*`	Zero or more characters within a filename component	bolt*.c matches bolt.c and bolt_order.c
 - `?`	Exactly one character	part?.c matches part1.c, but not part12.c
 - `[abc]`	One character from the listed choices 
@@ -48,37 +66,3 @@
 **The leading**`-`  -> don't report an error if those files are missing. This matters before the first build and/or after `make clean`. 
 
 **The trailing**`\`**characters  -> continue the same statement onto the next line for readability
-
-
-# What We're Looking at:
-Here we are inspecting Make's ability to multitask with:  
-
-```bash
-make -r -j4
-```  
-Try replacing:
-```Make
-bin/order: build/order_report.o \
-           build/liborder.a            | bin
-	$(CC) $(^) -lc -o $(@)
-```
-with: 
-```Make
-bin/order: build/order_report.o        | bin
-	$(CC) $(^) build/liborder.a -lc -o $(@)
-```
-first, run the command:
-```bash
-make -r -j1
-```
-This should succeed, because the library will be ready at the time of linking. Then, add `sleep 3` here:
-```make
-build/liborder.a: $(ORDER_OBJ)         | build
-	sleep 3
-	ar rcs $(@) $(^)
-```
-now, run:
-```bash
-make -r -j4
-```
-This should fail, because the library will not be built by the time of linking. 
