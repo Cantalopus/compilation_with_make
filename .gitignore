@@ -8,6 +8,8 @@ bin/
 *.zip
 */a.out
 */clean
+*.pcm
+*.cppm
 example
 second
 lesson-terminal.log

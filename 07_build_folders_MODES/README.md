@@ -1,4 +1,7 @@
 ## Make variables usage
+    -  =   --------> looks for assignment after use
+    - :=   --------> allows you to append to a variable
+    - ?=   --------> only sets if hasn't been set
     - $(@) --------> target
     - $(<) --------> prerequisite 
     - $(^) --------> all prerequisites
@@ -7,6 +10,7 @@
     - \    --------> new line
     - @<command>  -> hides command
     - \t(tab) -----> read as recipe, use in targets recipes ONLY!!!
+    
     
 ## Make functions
 `$(if condition, then-part, else-part)` -> if condition is false there is no else-part, the function produces an empty string(meaning false). Only the selected branch is expanded. **Example:** `$(if hello,YES,NO)` returns yes. `$(if ,YES,NO)` returns an empty string, meaning false, the else-part is selected returning `NO`. `$(if 1,YES,NO)`->`YES`, `$(if 0,YES,NO)`->`YES`, `$(if false,YES,NO)`->`YES`, `$(if "",YES,NO)`->`YES`, `$(if ,YES,NO)`->`NO`.

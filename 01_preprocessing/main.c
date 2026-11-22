@@ -1,6 +1,6 @@
-#define EXIT_STATUS 0
+#include "chicken.h"
 
 int main(void)
 {
-    return EXIT_STATUS;
+    return status() == EXIT_STATUS ? 0 : 1;
 }

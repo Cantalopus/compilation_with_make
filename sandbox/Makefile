@@ -1,22 +1,39 @@
 CC = gcc
 
-.PHONY: build
+BUILD_DIR := ./build
+SRC_DIRS := ./src
+SRCS := $(shell find $(SRC_DIRS) -name '*.cpp' -or -name '*.c' -or -name '*.s')
+OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
+DEPS := $(OBJS:.o=.d)
+INC_DIRS := $(shell find $(SRC_DIRS) -type d)
+INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 
-example: build/main.o 
-	$(CC) $(^) -o $(@)
+list-all: 
+	@echo $(BUILD_DIR)\
+	      $(SRC_DIRS) \
+		  $(SRCS) \
+		  $(OBJS) \
+		  $(DEPS) \
+		  $(INC_DIRS) \
+		  $(INC_FLAGS)
 
-build/main.i: main.c | build
-	$(CC) -E $(<) -o $(@)
+list-build:
+	@echo $(BUILD_DIR)
 
-build/main.s: build/main.i | build
-	$(CC) -S $(<) -o $(@)
+list-src_dirs:
+	@echo $(SRC_DIRS)
 
-build/main.o: build/main.s | build
-	$(CC) -c $(<) -o $(@)
+list-srcs:
+	@echo $(SRCS)
 
-build bin: 
-	mkdir -p build bin
+list-objs:
+	@echo $(OBJS)
 
-.PHONY: clean
-clean:
-	rm -rf build bin
+list-deps:
+	@echo $(DEPS)
+
+list-inc_dirs:
+	@echo $(INC_DIRS)
+
+list-inc_flags:
+	@echo $(INC_FLAGS)
