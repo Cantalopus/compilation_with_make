@@ -76,3 +76,59 @@ pass_name( CITY )
 --     MYVAR: CITY
 --     ${MYVAR}: CITY
 ]]
+
+set(TESTVAR "asdf")
+message(STATUS "TESTVAR before macro: ${TESTVAR}")
+
+macro(set_to_three MYVAR)
+    message(STATUS "MYVAR: ${MYVAR}")
+    set(${MYVAR} "3")
+endmacro()
+
+set_to_three( TESTVAR )
+message(STATUS "TESTVAR after macro: ${TESTVAR}")
+message(STATUS "MYVAR after macro: ${MYVAR}")
+#[[
+-- TESTVAR before macro: asdf
+-- MYVAR: TESTVAR
+-- TESTVAR after macro: 3
+-- MYVAR after macro:
+]]
+
+macro(custom_add X_IN Y_IN SUM_OUT)
+    math(EXPR ${SUM_OUT} "${X_IN} + ${Y_IN}")
+endmacro()
+
+set(X 3)
+set(Y 5)
+set(SUM "asdf")
+
+custom_add(${X} ${Y} SUM)
+message(STATUS "SUM after macro: ${SUM}")
+message(STATUS "asdf: ${asdf}")
+
+
+# Functions
+
+function(print_greet_func)
+    message(STATUS "Hello ${NAME}")
+    set(NAME "Robert")
+    message(STATUS "NAME at the end of print_greet_func(): ${NAME}")
+endfunction()
+
+set(NAME "Wes")
+print_greet_func()
+
+message(STATUS "NAME after print_greet_func(): ${NAME}")
+
+# PARENT_SCOPE
+function(print_greet_func1)
+    message(STATUS "Hello ${NAME1}")
+    set(NAME1 "Dobert" PARENT_SCOPE)
+    message(STATUS "NAME at the end of print_greet_func(): ${NAME1}")
+endfunction()
+
+set(NAME1 "Fes")
+print_greet_func1()
+
+message(STATUS "NAME after print_greet_func(): ${NAME1}")
