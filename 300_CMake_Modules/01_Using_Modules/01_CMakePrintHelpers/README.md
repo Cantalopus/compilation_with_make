@@ -9,7 +9,7 @@ cmake --help-module-list
 ```Bash
 cmake --help-module <module-name>
 ```
-
+[Click here](doc.md), to read --help documentation
 #### Documentation for all built-in modules:
 ```Bash
 cmake --help-modules
@@ -35,3 +35,4 @@ cmake --help-property <property>
 ```Bash
 cmake --help-properties
 ```
+
