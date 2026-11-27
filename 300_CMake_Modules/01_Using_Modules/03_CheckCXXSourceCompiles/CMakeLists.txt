@@ -96,7 +96,7 @@ check_cxx_source_compiles(
         concept Number = requires(T a)
         {
             a + a;
-        }
+        };
 
         int main()
         {
@@ -105,9 +105,6 @@ check_cxx_source_compiles(
     ]]
     CONCEPTS_WITH_CPP17
 )
-
-unset(CMAKE_CXX_STANDARD)
-unset(CMAKE_CXX_STANDARD_REQUIRED)
 
 set(CMAKE_CXX_STANDARD 20)
 
@@ -131,3 +128,39 @@ cmake_print_variables(
     CONCEPTS_WITH_CPP17
     CONCEPTS_WITH_CPP20
 )
+
+set(CMAKE_REQUIRED_FLAGS "-Wall -Wextra")
+
+check_cxx_source_compiles(
+    [[
+        int main()
+        {
+            int unused_variable = 42;
+            return 0;
+        }
+    ]]
+    TEST_WITH_WARNINGS
+)
+
+set(CMAKE_REQUIRED_FLAGS "-Wall -Wextra -Werror")
+
+check_cxx_source_compiles(
+    [[
+        int main()
+        {
+            int unused_variable = 42;
+            return 0;
+        }
+    ]]
+    TEST_WITH_WERROR
+)
+
+unset(CMAKE_REQUIRED_FLAGS)
+
+cmake_print_variables(
+    TEST_WITH_WARNINGS
+    TEST_WITH_WERROR
+)
+
+set(MY_VARIABLE 42 CACHE STRING "Example" FORCE)
+message(STATUS "$CACHE{MY_VARIABLE}")
