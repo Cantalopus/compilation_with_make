@@ -26,6 +26,6 @@ cmake_print_variables(CMAKE_REQUIRED_INCLUDES)
 
 check_include_file("settings.h" TEST_AFTER_POP)
 
-cmake_print_variables(TEST_BEFORE_PUSH)
+cmake_print_variables(TEST_BEFORE_PUSH) 
 cmake_print_variables(TEST_DURING_PUSH)
 cmake_print_variables(TEST_AFTER_POP)
